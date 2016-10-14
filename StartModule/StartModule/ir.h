@@ -16,17 +16,17 @@
 /*
  * Start module (Attiny13A)
  */
-#define IR_INT_EN() GIMSK |= _BV(PCIE)
-#define IR_ANY_EDGE_INT()	PCMSK |= _BV(PCINT4);
+#define IR_INT_EN() GIMSK |= (1 << PCIE)
+#define IR_ANY_EDGE_INT()	PCMSK |= (1 << PCINT4);
 
-#define IR_CNT_PRESCALE_SET()	TCCR0B |= _BV(CS00) | _BV(CS01)	// Prescaler 64
+#define IR_CNT_PRESCALE_SET()	TCCR0B |= (1 << CS00) | (1 << CS01)	// Prescaler 64
 #define IR_CNT TCNT0
-#define IR_CNT_OVF_EN()	TIMSK0 |= _BV(TOIE0)
+#define IR_CNT_OVF_EN()	TIMSK0 |= (1 << TOIE0)
 
 #define IR_PIN_ISR PCINT0_vect
 #define IR_CNT_ISR TIM0_OVF_vect
 
-#define IR_GET_EDGE()	(PINB & _BV(4))
+#define IR_GET_EDGE()	(PINB & (1 << 4))
 #define IR_EDGE_LOW()	!IR_GET_EDGE()
 #define IR_EDGE_HIGH()	IR_GET_EDGE()
 // ------------- END HW-stuff -------------------- //

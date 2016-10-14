@@ -5,7 +5,7 @@
  *  Author: THE DEATH
  */ 
 
-#define F_CPU	4600000UL
+#define F_CPU	4800000UL
 
 #include "ir.h"
 
@@ -83,7 +83,8 @@ void ir_init(void) {
 	IR_ANY_EDGE_INT();	// Interrupt on any logical change
 }
 
-ISR (IR_PIN_ISR) {
+ISR (IR_PIN_ISR)
+{
 	static signed int cnt = 0;
 
 	cnt += (signed int)IR_CNT + (signed int)(((unsigned int)timer_overflows) << 8);	// Save count
