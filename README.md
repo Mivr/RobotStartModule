@@ -8,6 +8,7 @@ Our goal is to make the start protocol originally used by RobotChallenge in Vien
 - we had a bug where KILL set LOW when starting in STARTED mode - FIXED
 - the new batch of ATTINY13A IC's was with a not working 4.8MHz crystal, the issue was fixed by using the 9.6MHz clock and adjusting some constants in the code
 - some minor refactoring was made
+
 #### Issues / TODO's:
 - the code is still unclear to read and messy more refactoring is needed
 - the RC5 decoding is taking too much program space as it is now, it needs to be made in assembly and integrated
