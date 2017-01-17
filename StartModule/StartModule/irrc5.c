@@ -5,7 +5,7 @@
  *  Author: THE DEATH
  */ 
 
-#define F_CPU	4800000UL
+#define F_CPU	9600000UL
 
 #include "ir.h"
 
@@ -28,12 +28,11 @@
 /*
  * Timer constants
  */
-#define MAX_ERROR		((F_CPU * 5) / 1000000)	// Maximum timing error in timer ticks
+#define MAX_ERROR		48	// ((F_CPU * 5) / 1000000)	// Maximum timing error in timer ticks
 #define TIMER_PRESCALE	64
 
-#define HALF_BIT_CNT	((HALF_BIT_LEN * (F_CPU / 1000000L)) / TIMER_PRESCALE)	//111.12 @8MHz
-#define BIT_CNT			((BIT_LEN * (F_CPU / 1000000L)) / TIMER_PRESCALE)		//222.25 @8MHz
-
+#define HALF_BIT_CNT	133 // ((HALF_BIT_LEN * (F_CPU / 1000000L)) / TIMER_PRESCALE)
+#define BIT_CNT			266 // ((BIT_LEN * (F_CPU / 1000000L)) / TIMER_PRESCALE)
 /*
  * Interrupt stuff
  */

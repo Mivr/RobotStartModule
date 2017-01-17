@@ -4,7 +4,7 @@
 // Author : MIVR
  
 
-#define F_CPU	4800000UL
+#define F_CPU	9600000UL
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -82,6 +82,7 @@ int main()
 			{
 				case POWERON:
 				{
+					// set the KILL pin to high
 					PORTB = (1 << DO_KILL_SWITCH_PIN);
 				}
 				break;
@@ -90,6 +91,9 @@ int main()
 				{
 					// start the LED PWM on OUTPUT A
 					TCCR0A |= (1 << COM0A1);
+					
+					// set start PIN and KILL PIN in case we are waking from power down and we are going to this mode
+					PORTB |= (1 << DO_START_PIN) | (1 << DO_KILL_SWITCH_PIN);
 				}
 				break;
 
@@ -97,6 +101,9 @@ int main()
 				{
 					// shut down the LED PWM
 					TCCR0A &= ~(1 << COM0A1);
+					
+					// stop the START and KILL signals to LOW
+					PORTB = 0;
 					
 					EepromWriteByte(EEPROM_ADDRESS_STATE_OF_MAIN_STATE_MACHINE, STOPPED_SAFE);
 					_delay_ms(1000);
