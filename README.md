@@ -21,7 +21,7 @@ Can be seen here with full designs and production files: http://circuitmaker.com
 To make a set of products that allow beginning and professional users to utilize the start protocol.
 
 #### Strategy
-Lean approach - develop the most needed part -> sell to customers -> get feedback -> start over
+Lean approach - develop the most needed part -> sell to customers -> get feedback -> start over. 
 With this strategy we expect to provide just the product that is needed on the market.
 
 ### Short term goals
