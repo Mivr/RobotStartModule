@@ -3,46 +3,46 @@ StartModule.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000386  00000000  00000000  00000074  2**1
+  0 .text         00000290  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000003fa  2**0
+  1 .data         00000002  00800060  00000290  00000324  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000007  00800060  00800060  000003fa  2**0
+  2 .bss          00000025  00800062  00800062  00000326  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000003fa  2**0
+  3 .comment      00000030  00000000  00000000  00000326  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000042c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000358  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000048  00000000  00000000  00000468  2**0
+  5 .debug_aranges 00000068  00000000  00000000  00000394  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000053b  00000000  00000000  000004b0  2**0
+  6 .debug_info   000003bc  00000000  00000000  000003fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000254  00000000  00000000  000009eb  2**0
+  7 .debug_abbrev 0000023e  00000000  00000000  000007b8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000004c0  00000000  00000000  00000c3f  2**0
+  8 .debug_line   00000484  00000000  00000000  000009f6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000a8  00000000  00000000  00001100  2**2
+  9 .debug_frame  000000d4  00000000  00000000  00000e7c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000235  00000000  00000000  000011a8  2**0
+ 10 .debug_str    000002a2  00000000  00000000  00000f50  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000039e  00000000  00000000  000013dd  2**0
+ 11 .debug_loc    000001c5  00000000  00000000  000011f2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000018  00000000  00000000  0000177b  2**0
+ 12 .debug_ranges 00000018  00000000  00000000  000013b7  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
-   2:	16 c0       	rjmp	.+44     	; 0x30 <__bad_interrupt>
-   4:	23 c0       	rjmp	.+70     	; 0x4c <__vector_2>
-   6:	bd c0       	rjmp	.+378    	; 0x182 <__vector_3>
-   8:	13 c0       	rjmp	.+38     	; 0x30 <__bad_interrupt>
-   a:	12 c0       	rjmp	.+36     	; 0x30 <__bad_interrupt>
-   c:	11 c0       	rjmp	.+34     	; 0x30 <__bad_interrupt>
-   e:	10 c0       	rjmp	.+32     	; 0x30 <__bad_interrupt>
-  10:	0f c0       	rjmp	.+30     	; 0x30 <__bad_interrupt>
-  12:	0e c0       	rjmp	.+28     	; 0x30 <__bad_interrupt>
+   2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
+   4:	78 c0       	rjmp	.+240    	; 0xf6 <__vector_2>
+   6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	1c c0       	rjmp	.+56     	; 0x46 <__bad_interrupt>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
+  12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
 
 00000014 <__ctors_end>:
   14:	11 24       	eor	r1, r1
@@ -50,742 +50,459 @@ Disassembly of section .text:
   18:	cf e9       	ldi	r28, 0x9F	; 159
   1a:	cd bf       	out	0x3d, r28	; 61
 
-0000001c <__do_clear_bss>:
-  1c:	20 e0       	ldi	r18, 0x00	; 0
+0000001c <__do_copy_data>:
+  1c:	10 e0       	ldi	r17, 0x00	; 0
   1e:	a0 e6       	ldi	r26, 0x60	; 96
   20:	b0 e0       	ldi	r27, 0x00	; 0
-  22:	01 c0       	rjmp	.+2      	; 0x26 <.do_clear_bss_start>
+  22:	e0 e9       	ldi	r30, 0x90	; 144
+  24:	f2 e0       	ldi	r31, 0x02	; 2
+  26:	02 c0       	rjmp	.+4      	; 0x2c <__do_copy_data+0x10>
+  28:	05 90       	lpm	r0, Z+
+  2a:	0d 92       	st	X+, r0
+  2c:	a2 36       	cpi	r26, 0x62	; 98
+  2e:	b1 07       	cpc	r27, r17
+  30:	d9 f7       	brne	.-10     	; 0x28 <__do_copy_data+0xc>
 
-00000024 <.do_clear_bss_loop>:
-  24:	1d 92       	st	X+, r1
+00000032 <__do_clear_bss>:
+  32:	20 e0       	ldi	r18, 0x00	; 0
+  34:	a2 e6       	ldi	r26, 0x62	; 98
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	01 c0       	rjmp	.+2      	; 0x3c <.do_clear_bss_start>
 
-00000026 <.do_clear_bss_start>:
-  26:	a7 36       	cpi	r26, 0x67	; 103
-  28:	b2 07       	cpc	r27, r18
-  2a:	e1 f7       	brne	.-8      	; 0x24 <.do_clear_bss_loop>
-  2c:	c7 d0       	rcall	.+398    	; 0x1bc <main>
-  2e:	a9 c1       	rjmp	.+850    	; 0x382 <_exit>
+0000003a <.do_clear_bss_loop>:
+  3a:	1d 92       	st	X+, r1
 
-00000030 <__bad_interrupt>:
-  30:	e7 cf       	rjmp	.-50     	; 0x0 <__vectors>
+0000003c <.do_clear_bss_start>:
+  3c:	a7 38       	cpi	r26, 0x87	; 135
+  3e:	b2 07       	cpc	r27, r18
+  40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
+  42:	d0 d0       	rcall	.+416    	; 0x1e4 <main>
+  44:	23 c1       	rjmp	.+582    	; 0x28c <_exit>
 
-00000032 <ir_init>:
-void ir_init(void) {
-	/*
-	 * Variables
-	 */
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
 
-	curr_index = 0;
-  32:	21 2c       	mov	r2, r1
+00000048 <EepromWriteByte>:
+//
+//////////////////////////////////////////////////////////////////////////
+void EepromWriteByte(uint8_t* address, uint8_t data)
+{
+	// stop interrupts as they may damage EEPROM
+	cli();
+  48:	f8 94       	cli
+	
+	// wait for the EEPROM to be ready before writing
+	eeprom_busy_wait();
+  4a:	e1 99       	sbic	0x1c, 1	; 28
+  4c:	fe cf       	rjmp	.-4      	; 0x4a <EepromWriteByte+0x2>
 
-	/*
-	 * Init Timer0
-	 */
-	IR_CNT_PRESCALE_SET();
-  34:	83 b7       	in	r24, 0x33	; 51
-  36:	83 60       	ori	r24, 0x03	; 3
-  38:	83 bf       	out	0x33, r24	; 51
-	IR_CNT = 0;
-  3a:	12 be       	out	0x32, r1	; 50
-	IR_CNT_OVF_EN();
-  3c:	89 b7       	in	r24, 0x39	; 57
-  3e:	82 60       	ori	r24, 0x02	; 2
-  40:	89 bf       	out	0x39, r24	; 57
+	// write to EEPROM
+	eeprom_write_byte(address, data);
+  4e:	11 d1       	rcall	.+546    	; 0x272 <eeprom_write_byte>
 
-	/*
-	 * Init INT0
-	 */
-	IR_INT_EN();		// Enable int0
-  42:	8b b7       	in	r24, 0x3b	; 59
-  44:	80 62       	ori	r24, 0x20	; 32
-  46:	8b bf       	out	0x3b, r24	; 59
-	IR_ANY_EDGE_INT();	// Interrupt on any logical change
-  48:	ac 9a       	sbi	0x15, 4	; 21
-  4a:	08 95       	ret
+	// return interrupts as normal
+	sei();
+  50:	78 94       	sei
+  52:	08 95       	ret
 
-0000004c <__vector_2>:
+00000054 <tryToDecode>:
+
+void tryToDecode()
+{
+	uint8_t bitsCounter = 13;
+	
+	dataBuffer = 0;
+  54:	10 92 86 00 	sts	0x0086, r1	; 0x800086 <dataBuffer+0x1>
+  58:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <dataBuffer>
+	
+	// start of stream detect
+	if (pulses[0] > 9 && pulses[1] == SHORT_POSITIVE_PULSE)
+  5c:	80 91 67 00 	lds	r24, 0x0067	; 0x800067 <pulses>
+  60:	8a 30       	cpi	r24, 0x0A	; 10
+  62:	40 f4       	brcc	.+16     	; 0x74 <tryToDecode+0x20>
+				iterator++;
+			}
+		}
+	}
+	
+	if (indexInPulsesBuffer == 29)
+  64:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <__data_end>
+  68:	8d 31       	cpi	r24, 0x1D	; 29
+  6a:	09 f0       	breq	.+2      	; 0x6e <tryToDecode+0x1a>
+  6c:	3f c0       	rjmp	.+126    	; 0xec <__stack+0x4d>
+  6e:	e7 e6       	ldi	r30, 0x67	; 103
+  70:	f0 e0       	ldi	r31, 0x00	; 0
+  72:	33 c0       	rjmp	.+102    	; 0xda <__stack+0x3b>
+	uint8_t bitsCounter = 13;
+	
+	dataBuffer = 0;
+	
+	// start of stream detect
+	if (pulses[0] > 9 && pulses[1] == SHORT_POSITIVE_PULSE)
+  74:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <pulses+0x1>
+  78:	81 30       	cpi	r24, 0x01	; 1
+  7a:	a1 f7       	brne	.-24     	; 0x64 <tryToDecode+0x10>
+  7c:	20 e0       	ldi	r18, 0x00	; 0
+  7e:	30 e0       	ldi	r19, 0x00	; 0
+  80:	82 e0       	ldi	r24, 0x02	; 2
+  82:	9d e0       	ldi	r25, 0x0D	; 13
+	{
+		uint8_t iterator = 2;
+		while (iterator < 29)
+		{
+			if (pulses[iterator] < 4 && pulses[iterator + 1] < 4)
+  84:	e8 2f       	mov	r30, r24
+  86:	f0 e0       	ldi	r31, 0x00	; 0
+  88:	e9 59       	subi	r30, 0x99	; 153
+  8a:	ff 4f       	sbci	r31, 0xFF	; 255
+  8c:	70 81       	ld	r23, Z
+  8e:	74 30       	cpi	r23, 0x04	; 4
+  90:	e0 f4       	brcc	.+56     	; 0xca <__stack+0x2b>
+  92:	61 81       	ldd	r22, Z+1	; 0x01
+  94:	64 30       	cpi	r22, 0x04	; 4
+  96:	c8 f4       	brcc	.+50     	; 0xca <__stack+0x2b>
+			{
+				dataBuffer |= ((pulses[iterator] % 2 == 0 && pulses[iterator + 1] % 2 == 1) << bitsCounter);
+  98:	70 fd       	sbrc	r23, 0
+  9a:	04 c0       	rjmp	.+8      	; 0xa4 <__stack+0x5>
+  9c:	46 2f       	mov	r20, r22
+  9e:	41 70       	andi	r20, 0x01	; 1
+  a0:	50 e0       	ldi	r21, 0x00	; 0
+  a2:	02 c0       	rjmp	.+4      	; 0xa8 <__stack+0x9>
+  a4:	40 e0       	ldi	r20, 0x00	; 0
+  a6:	50 e0       	ldi	r21, 0x00	; 0
+  a8:	fa 01       	movw	r30, r20
+  aa:	09 2e       	mov	r0, r25
+  ac:	02 c0       	rjmp	.+4      	; 0xb2 <__stack+0x13>
+  ae:	ee 0f       	add	r30, r30
+  b0:	ff 1f       	adc	r31, r31
+  b2:	0a 94       	dec	r0
+  b4:	e2 f7       	brpl	.-8      	; 0xae <__stack+0xf>
+  b6:	2e 2b       	or	r18, r30
+  b8:	3f 2b       	or	r19, r31
+				bitsCounter--;
+  ba:	91 50       	subi	r25, 0x01	; 1
+				iterator += 2 - (pulses[iterator + 1] > 1);
+  bc:	62 30       	cpi	r22, 0x02	; 2
+  be:	10 f4       	brcc	.+4      	; 0xc4 <__stack+0x25>
+  c0:	62 e0       	ldi	r22, 0x02	; 2
+  c2:	01 c0       	rjmp	.+2      	; 0xc6 <__stack+0x27>
+  c4:	61 e0       	ldi	r22, 0x01	; 1
+  c6:	86 0f       	add	r24, r22
+  c8:	01 c0       	rjmp	.+2      	; 0xcc <__stack+0x2d>
+			}
+			else
+			{
+				iterator++;
+  ca:	8f 5f       	subi	r24, 0xFF	; 255
+	
+	// start of stream detect
+	if (pulses[0] > 9 && pulses[1] == SHORT_POSITIVE_PULSE)
+	{
+		uint8_t iterator = 2;
+		while (iterator < 29)
+  cc:	8d 31       	cpi	r24, 0x1D	; 29
+  ce:	d0 f2       	brcs	.-76     	; 0x84 <tryToDecode+0x30>
+  d0:	30 93 86 00 	sts	0x0086, r19	; 0x800086 <dataBuffer+0x1>
+  d4:	20 93 85 00 	sts	0x0085, r18	; 0x800085 <dataBuffer>
+  d8:	c5 cf       	rjmp	.-118    	; 0x64 <tryToDecode+0x10>
+	
+	if (indexInPulsesBuffer == 29)
+	{
+		for (uint8_t i = 0; i<29; i++)
+		{
+			pulses[i] = pulses[i+1];
+  da:	81 81       	ldd	r24, Z+1	; 0x01
+  dc:	81 93       	st	Z+, r24
+		}
+	}
+	
+	if (indexInPulsesBuffer == 29)
+	{
+		for (uint8_t i = 0; i<29; i++)
+  de:	80 e0       	ldi	r24, 0x00	; 0
+  e0:	e4 38       	cpi	r30, 0x84	; 132
+  e2:	f8 07       	cpc	r31, r24
+  e4:	d1 f7       	brne	.-12     	; 0xda <__stack+0x3b>
+		{
+			pulses[i] = pulses[i+1];
+		}
+		
+		indexInPulsesBuffer--;
+  e6:	8c e1       	ldi	r24, 0x1C	; 28
+  e8:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__data_end>
+	}
+	
+	handleEvent_dataReceivedOnIR(dataBuffer);
+  ec:	80 91 85 00 	lds	r24, 0x0085	; 0x800085 <dataBuffer>
+  f0:	90 91 86 00 	lds	r25, 0x0086	; 0x800086 <dataBuffer+0x1>
+  f4:	5f c0       	rjmp	.+190    	; 0x1b4 <handleEvent_dataReceivedOnIR>
+
+000000f6 <__vector_2>:
 }
 
 ISR (IR_PIN_ISR)
 {
-  4c:	1f 92       	push	r1
-  4e:	0f 92       	push	r0
-  50:	0f b6       	in	r0, 0x3f	; 63
-  52:	0f 92       	push	r0
-  54:	11 24       	eor	r1, r1
-  56:	2f 93       	push	r18
-  58:	3f 93       	push	r19
-  5a:	8f 93       	push	r24
-  5c:	9f 93       	push	r25
-	static signed int cnt = 0;
-
-	cnt += (signed int)IR_CNT + (signed int)(((unsigned int)timer_overflows) << 8);	// Save count
-  5e:	22 b7       	in	r18, 0x32	; 50
-  60:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <timer_overflows>
-  64:	90 e0       	ldi	r25, 0x00	; 0
-  66:	98 2f       	mov	r25, r24
-  68:	88 27       	eor	r24, r24
-  6a:	82 0f       	add	r24, r18
-  6c:	91 1d       	adc	r25, r1
-  6e:	20 91 62 00 	lds	r18, 0x0062	; 0x800062 <cnt.1504>
-  72:	30 91 63 00 	lds	r19, 0x0063	; 0x800063 <cnt.1504+0x1>
-  76:	82 0f       	add	r24, r18
-  78:	93 1f       	adc	r25, r19
-  7a:	90 93 63 00 	sts	0x0063, r25	; 0x800063 <cnt.1504+0x1>
-  7e:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <cnt.1504>
-	IR_CNT = 0;
-  82:	12 be       	out	0x32, r1	; 50
-	timer_overflows = 0;
-  84:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <timer_overflows>
-
-	switch (status)
-  88:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <status>
-  8c:	81 11       	cpse	r24, r1
-  8e:	04 c0       	rjmp	.+8      	; 0x98 <__vector_2+0x4c>
-	{
-		case IR_STARTBIT1:
-		{
-			if (IR_EDGE_LOW())
-  90:	b4 99       	sbic	0x16, 4	; 22
-  92:	6e c0       	rjmp	.+220    	; 0x170 <__stack+0xd1>
-			{
-				status = IR_STARTBIT2;
-  94:	81 e0       	ldi	r24, 0x01	; 1
-  96:	3e c0       	rjmp	.+124    	; 0x114 <__stack+0x75>
-		}
-		break;
-		
-		default:
-		{
-			if ((cnt - MAX_ERROR) < BIT_CNT && (cnt + MAX_ERROR) > BIT_CNT)
-  98:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <cnt.1504>
-  9c:	90 91 63 00 	lds	r25, 0x0063	; 0x800063 <cnt.1504+0x1>
-  a0:	9c 01       	movw	r18, r24
-  a2:	2b 5d       	subi	r18, 0xDB	; 219
-  a4:	31 09       	sbc	r19, r1
-  a6:	2f 35       	cpi	r18, 0x5F	; 95
-  a8:	31 05       	cpc	r19, r1
-  aa:	08 f0       	brcs	.+2      	; 0xae <__stack+0xf>
-  ac:	53 c0       	rjmp	.+166    	; 0x154 <__stack+0xb5>
-			{
-				switch(status)
-  ae:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <status>
-  b2:	82 30       	cpi	r24, 0x02	; 2
-  b4:	59 f0       	breq	.+22     	; 0xcc <__stack+0x2d>
-  b6:	2c f4       	brge	.+10     	; 0xc2 <__stack+0x23>
-  b8:	81 30       	cpi	r24, 0x01	; 1
-  ba:	09 f0       	breq	.+2      	; 0xbe <__stack+0x1f>
-  bc:	59 c0       	rjmp	.+178    	; 0x170 <__stack+0xd1>
-				{
-					case IR_STARTBIT2:
-					{
-						status = IR_TOGGLEBIT;
-  be:	82 e0       	ldi	r24, 0x02	; 2
-  c0:	29 c0       	rjmp	.+82     	; 0x114 <__stack+0x75>
-		
-		default:
-		{
-			if ((cnt - MAX_ERROR) < BIT_CNT && (cnt + MAX_ERROR) > BIT_CNT)
-			{
-				switch(status)
-  c2:	83 30       	cpi	r24, 0x03	; 3
-  c4:	89 f0       	breq	.+34     	; 0xe8 <__stack+0x49>
-  c6:	84 30       	cpi	r24, 0x04	; 4
-  c8:	61 f1       	breq	.+88     	; 0x122 <__stack+0x83>
-  ca:	52 c0       	rjmp	.+164    	; 0x170 <__stack+0xd1>
-						cnt = 0;
-					}
-					break;
-					case IR_TOGGLEBIT:
-					{
-						curr_index = ADDR_LEN;
-  cc:	95 e0       	ldi	r25, 0x05	; 5
-  ce:	29 2e       	mov	r2, r25
-						addr = 0;
-  d0:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <addr>
-						cmd = 0;
-  d4:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <cmd>
-						cnt = 0;
-  d8:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <cnt.1504+0x1>
-  dc:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <cnt.1504>
-						status = IR_ADDR;
-  e0:	83 e0       	ldi	r24, 0x03	; 3
-  e2:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <status>
-					}
-					break;
-  e6:	44 c0       	rjmp	.+136    	; 0x170 <__stack+0xd1>
-					case IR_ADDR:
-					{
-						curr_index--;
-  e8:	2f ef       	ldi	r18, 0xFF	; 255
-  ea:	22 0d       	add	r18, r2
-  ec:	22 2e       	mov	r2, r18
-						if (IR_EDGE_LOW())
-  ee:	b4 99       	sbic	0x16, 4	; 22
-  f0:	0c c0       	rjmp	.+24     	; 0x10a <__stack+0x6b>
-						{
-							addr |= _BV(curr_index);
-  f2:	30 91 64 00 	lds	r19, 0x0064	; 0x800064 <addr>
-  f6:	81 e0       	ldi	r24, 0x01	; 1
-  f8:	90 e0       	ldi	r25, 0x00	; 0
-  fa:	02 2e       	mov	r0, r18
-  fc:	01 c0       	rjmp	.+2      	; 0x100 <__stack+0x61>
-  fe:	88 0f       	add	r24, r24
- 100:	0a 94       	dec	r0
- 102:	ea f7       	brpl	.-6      	; 0xfe <__stack+0x5f>
- 104:	83 2b       	or	r24, r19
- 106:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <addr>
-						}
-
-						if (!curr_index)
- 10a:	21 11       	cpse	r18, r1
- 10c:	05 c0       	rjmp	.+10     	; 0x118 <__stack+0x79>
-						{
-							curr_index = CMD_LEN;
- 10e:	86 e0       	ldi	r24, 0x06	; 6
- 110:	28 2e       	mov	r2, r24
-							status = IR_CMD;
- 112:	84 e0       	ldi	r24, 0x04	; 4
- 114:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <status>
-						}
-						cnt = 0;
- 118:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <cnt.1504+0x1>
- 11c:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <cnt.1504>
-					}
-					break;
- 120:	27 c0       	rjmp	.+78     	; 0x170 <__stack+0xd1>
-					case IR_CMD:
-					{
-						curr_index--;
- 122:	2f ef       	ldi	r18, 0xFF	; 255
- 124:	22 0d       	add	r18, r2
- 126:	22 2e       	mov	r2, r18
-						if (IR_EDGE_LOW())
- 128:	b4 99       	sbic	0x16, 4	; 22
- 12a:	0c c0       	rjmp	.+24     	; 0x144 <__stack+0xa5>
-						{
-							cmd |= _BV(curr_index);
- 12c:	30 91 66 00 	lds	r19, 0x0066	; 0x800066 <cmd>
- 130:	81 e0       	ldi	r24, 0x01	; 1
- 132:	90 e0       	ldi	r25, 0x00	; 0
- 134:	02 2e       	mov	r0, r18
- 136:	01 c0       	rjmp	.+2      	; 0x13a <__stack+0x9b>
- 138:	88 0f       	add	r24, r24
- 13a:	0a 94       	dec	r0
- 13c:	ea f7       	brpl	.-6      	; 0x138 <__stack+0x99>
- 13e:	83 2b       	or	r24, r19
- 140:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <cmd>
-						}
-
-						if (!curr_index)
- 144:	21 11       	cpse	r18, r1
- 146:	e8 cf       	rjmp	.-48     	; 0x118 <__stack+0x79>
-						{
-							has_next = 1;
- 148:	81 e0       	ldi	r24, 0x01	; 1
- 14a:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
-							status = IR_STARTBIT1;
- 14e:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <status>
- 152:	e2 cf       	rjmp	.-60     	; 0x118 <__stack+0x79>
-						cnt = 0;
-					}
-					break;
-				}
-			}
-			else if ((cnt - MAX_ERROR) < HALF_BIT_CNT && (cnt + MAX_ERROR) > HALF_BIT_CNT)
- 154:	86 55       	subi	r24, 0x56	; 86
- 156:	91 09       	sbc	r25, r1
- 158:	8f 35       	cpi	r24, 0x5F	; 95
- 15a:	91 05       	cpc	r25, r1
- 15c:	38 f4       	brcc	.+14     	; 0x16c <__stack+0xcd>
-			{
-				cnt = HALF_BIT_CNT;	// Synchronize..
- 15e:	85 e8       	ldi	r24, 0x85	; 133
- 160:	90 e0       	ldi	r25, 0x00	; 0
- 162:	90 93 63 00 	sts	0x0063, r25	; 0x800063 <cnt.1504+0x1>
- 166:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <cnt.1504>
- 16a:	02 c0       	rjmp	.+4      	; 0x170 <__stack+0xd1>
-			}
-			else
-			{
-				status = IR_STARTBIT1;
- 16c:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <status>
-			}
-		}
-		break;
-	}
+  f6:	1f 92       	push	r1
+  f8:	0f 92       	push	r0
+  fa:	0f b6       	in	r0, 0x3f	; 63
+  fc:	0f 92       	push	r0
+  fe:	11 24       	eor	r1, r1
+ 100:	2f 93       	push	r18
+ 102:	3f 93       	push	r19
+ 104:	4f 93       	push	r20
+ 106:	5f 93       	push	r21
+ 108:	6f 93       	push	r22
+ 10a:	7f 93       	push	r23
+ 10c:	8f 93       	push	r24
+ 10e:	9f 93       	push	r25
+ 110:	af 93       	push	r26
+ 112:	bf 93       	push	r27
+ 114:	ef 93       	push	r30
+ 116:	ff 93       	push	r31
+	uint16_t buffer = TCNT0 - lastTimeTimerOverfllowed - 65535 * ( TCNT0 < lastTimeTimerOverfllowed);
+ 118:	82 b7       	in	r24, 0x32	; 50
+ 11a:	20 91 63 00 	lds	r18, 0x0063	; 0x800063 <lastTimeTimerOverfllowed>
+ 11e:	30 91 64 00 	lds	r19, 0x0064	; 0x800064 <lastTimeTimerOverfllowed+0x1>
+ 122:	42 b7       	in	r20, 0x32	; 50
+ 124:	60 91 63 00 	lds	r22, 0x0063	; 0x800063 <lastTimeTimerOverfllowed>
+ 128:	70 91 64 00 	lds	r23, 0x0064	; 0x800064 <lastTimeTimerOverfllowed+0x1>
+ 12c:	90 e0       	ldi	r25, 0x00	; 0
+ 12e:	82 1b       	sub	r24, r18
+ 130:	93 0b       	sbc	r25, r19
+ 132:	50 e0       	ldi	r21, 0x00	; 0
+ 134:	21 e0       	ldi	r18, 0x01	; 1
+ 136:	30 e0       	ldi	r19, 0x00	; 0
+ 138:	46 17       	cp	r20, r22
+ 13a:	57 07       	cpc	r21, r23
+ 13c:	10 f0       	brcs	.+4      	; 0x142 <__vector_2+0x4c>
+ 13e:	20 e0       	ldi	r18, 0x00	; 0
+ 140:	30 e0       	ldi	r19, 0x00	; 0
+ 142:	82 0f       	add	r24, r18
+ 144:	93 1f       	adc	r25, r19
+	pulses[indexInPulsesBuffer] = ( buffer > 1333 ) * 2 + !IR_GET_EDGE + 10 * (buffer < 444 || buffer > 2222);
+ 146:	30 91 62 00 	lds	r19, 0x0062	; 0x800062 <__data_end>
+ 14a:	e3 2f       	mov	r30, r19
+ 14c:	f0 e0       	ldi	r31, 0x00	; 0
+ 14e:	86 33       	cpi	r24, 0x36	; 54
+ 150:	25 e0       	ldi	r18, 0x05	; 5
+ 152:	92 07       	cpc	r25, r18
+ 154:	10 f4       	brcc	.+4      	; 0x15a <__vector_2+0x64>
+ 156:	20 e0       	ldi	r18, 0x00	; 0
+ 158:	01 c0       	rjmp	.+2      	; 0x15c <__vector_2+0x66>
+ 15a:	22 e0       	ldi	r18, 0x02	; 2
+ 15c:	56 b3       	in	r21, 0x16	; 22
+ 15e:	41 e0       	ldi	r20, 0x01	; 1
+ 160:	51 11       	cpse	r21, r1
+ 162:	40 e0       	ldi	r20, 0x00	; 0
+ 164:	24 0f       	add	r18, r20
+ 166:	8c 5b       	subi	r24, 0xBC	; 188
+ 168:	91 40       	sbci	r25, 0x01	; 1
+ 16a:	83 3f       	cpi	r24, 0xF3	; 243
+ 16c:	96 40       	sbci	r25, 0x06	; 6
+ 16e:	10 f4       	brcc	.+4      	; 0x174 <__vector_2+0x7e>
+ 170:	80 e1       	ldi	r24, 0x10	; 16
+ 172:	01 c0       	rjmp	.+2      	; 0x176 <__vector_2+0x80>
+ 174:	8a e1       	ldi	r24, 0x1A	; 26
+ 176:	e9 59       	subi	r30, 0x99	; 153
+ 178:	ff 4f       	sbci	r31, 0xFF	; 255
+ 17a:	28 23       	and	r18, r24
+ 17c:	20 83       	st	Z, r18
+	indexInPulsesBuffer++;
+ 17e:	3f 5f       	subi	r19, 0xFF	; 255
+ 180:	30 93 62 00 	sts	0x0062, r19	; 0x800062 <__data_end>
+	lastTimeTimerOverfllowed = TCNT0;
+ 184:	82 b7       	in	r24, 0x32	; 50
+ 186:	90 e0       	ldi	r25, 0x00	; 0
+ 188:	90 93 64 00 	sts	0x0064, r25	; 0x800064 <lastTimeTimerOverfllowed+0x1>
+ 18c:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <lastTimeTimerOverfllowed>
+	tryToDecode();
+ 190:	61 df       	rcall	.-318    	; 0x54 <tryToDecode>
 }
- 170:	9f 91       	pop	r25
- 172:	8f 91       	pop	r24
- 174:	3f 91       	pop	r19
- 176:	2f 91       	pop	r18
- 178:	0f 90       	pop	r0
- 17a:	0f be       	out	0x3f, r0	; 63
- 17c:	0f 90       	pop	r0
- 17e:	1f 90       	pop	r1
- 180:	18 95       	reti
-
-00000182 <__vector_3>:
-
-ISR (IR_CNT_ISR)
-{
- 182:	1f 92       	push	r1
- 184:	0f 92       	push	r0
- 186:	0f b6       	in	r0, 0x3f	; 63
- 188:	0f 92       	push	r0
- 18a:	11 24       	eor	r1, r1
- 18c:	8f 93       	push	r24
-	timer_overflows++;
- 18e:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <timer_overflows>
- 192:	8f 5f       	subi	r24, 0xFF	; 255
- 194:	80 93 65 00 	sts	0x0065, r24	; 0x800065 <timer_overflows>
-	if (timer_overflows > 50)
- 198:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <timer_overflows>
- 19c:	83 33       	cpi	r24, 0x33	; 51
- 19e:	10 f0       	brcs	.+4      	; 0x1a4 <__vector_3+0x22>
-	{
-		status = IR_STARTBIT1;
- 1a0:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <status>
-	}
-}
- 1a4:	8f 91       	pop	r24
- 1a6:	0f 90       	pop	r0
- 1a8:	0f be       	out	0x3f, r0	; 63
+ 192:	ff 91       	pop	r31
+ 194:	ef 91       	pop	r30
+ 196:	bf 91       	pop	r27
+ 198:	af 91       	pop	r26
+ 19a:	9f 91       	pop	r25
+ 19c:	8f 91       	pop	r24
+ 19e:	7f 91       	pop	r23
+ 1a0:	6f 91       	pop	r22
+ 1a2:	5f 91       	pop	r21
+ 1a4:	4f 91       	pop	r20
+ 1a6:	3f 91       	pop	r19
+ 1a8:	2f 91       	pop	r18
  1aa:	0f 90       	pop	r0
- 1ac:	1f 90       	pop	r1
- 1ae:	18 95       	reti
+ 1ac:	0f be       	out	0x3f, r0	; 63
+ 1ae:	0f 90       	pop	r0
+ 1b0:	1f 90       	pop	r1
+ 1b2:	18 95       	reti
 
-000001b0 <EepromWriteByte>:
-//
-//////////////////////////////////////////////////////////////////////////
-void EepromWriteByte(unsigned char* address, unsigned char data)
-{
-	// stop interrupts as they may damage EEPROM
-	cli();
- 1b0:	f8 94       	cli
-	
-	// wait for the EEPROM to be ready before writing
-	eeprom_busy_wait();
- 1b2:	e1 99       	sbic	0x1c, 1	; 28
- 1b4:	fe cf       	rjmp	.-4      	; 0x1b2 <EepromWriteByte+0x2>
+000001b4 <handleEvent_dataReceivedOnIR>:
+		EEPROM_WRITE_STOP_COMMAND(currentStopCommand);
+		
+		LED_DRIVER_BLINK_LED_PROGRAMMING;
+	}
+	// start command received
+	else if ((((((uint16_t) dataReceived & 0x3f << 8) | (uint16_t)dataReceived) == secondaryStartCommand) || dataReceived & 0x3f == RC5_ADR_EXPERIMENTAL && dataReceived == (currentStopCommand + 1)) && (IDLE == currentState))
+ 1b4:	20 91 65 00 	lds	r18, 0x0065	; 0x800065 <secondaryStartCommand>
+ 1b8:	30 91 66 00 	lds	r19, 0x0066	; 0x800066 <secondaryStartCommand+0x1>
+ 1bc:	28 17       	cp	r18, r24
+ 1be:	39 07       	cpc	r19, r25
+ 1c0:	81 f4       	brne	.+32     	; 0x1e2 <handleEvent_dataReceivedOnIR+0x2e>
+ 1c2:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ 1c6:	81 30       	cpi	r24, 0x01	; 1
+ 1c8:	61 f4       	brne	.+24     	; 0x1e2 <handleEvent_dataReceivedOnIR+0x2e>
+	{
+		PORT_DRIVER_SET_STATE_ACTIVE();
+ 1ca:	86 e0       	ldi	r24, 0x06	; 6
+ 1cc:	88 bb       	out	0x18, r24	; 24
+		
+		LED_DRIVER_POWER_ON_LED;
+ 1ce:	8f b5       	in	r24, 0x2f	; 47
+ 1d0:	80 68       	ori	r24, 0x80	; 128
+ 1d2:	8f bd       	out	0x2f, r24	; 47
+		
+		EEPROM_WRITE_STATE(ACTIVE);
+ 1d4:	62 e0       	ldi	r22, 0x02	; 2
+ 1d6:	80 e0       	ldi	r24, 0x00	; 0
+ 1d8:	90 e0       	ldi	r25, 0x00	; 0
+ 1da:	36 df       	rcall	.-404    	; 0x48 <EepromWriteByte>
+		
+		currentState = ACTIVE;
+ 1dc:	82 e0       	ldi	r24, 0x02	; 2
+ 1de:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+ 1e2:	08 95       	ret
 
-	// write to EEPROM
-	eeprom_write_byte(address, data);
- 1b6:	d8 d0       	rcall	.+432    	; 0x368 <eeprom_write_byte>
-
-	// return interrupts as normal
-	sei();
- 1b8:	78 94       	sei
- 1ba:	08 95       	ret
-
-000001bc <main>:
+000001e4 <main>:
 //
 //////////////////////////////////////////////////////////////////////////
 int main()
 {
+	// initialize port driver
+	PORT_DRIVER_INITIALIZE();
+ 1e4:	87 e0       	ldi	r24, 0x07	; 7
+ 1e6:	87 bb       	out	0x17, r24	; 23
+	
+	// initialize led driver
+	LED_DRIVER_INITIALIZE;
+ 1e8:	8f b5       	in	r24, 0x2f	; 47
+ 1ea:	83 60       	ori	r24, 0x03	; 3
+ 1ec:	8f bd       	out	0x2f, r24	; 47
+ 1ee:	8a e0       	ldi	r24, 0x0A	; 10
+ 1f0:	86 bf       	out	0x36, r24	; 54
+ 1f2:	8f b5       	in	r24, 0x2f	; 47
+ 1f4:	8f 77       	andi	r24, 0x7F	; 127
+ 1f6:	8f bd       	out	0x2f, r24	; 47
+	
+	// load the EEPROM data in RAM mirror provided
+	EEPROM_INITIALIZE(&currentState, &currentStopCommand);
+ 1f8:	80 e0       	ldi	r24, 0x00	; 0
+ 1fa:	90 e0       	ldi	r25, 0x00	; 0
+ 1fc:	33 d0       	rcall	.+102    	; 0x264 <eeprom_read_byte>
+ 1fe:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+	
+	// load secondary data for start and stop
+	EEPROM_INITIALIZE_SECONDARY(&secondaryStartCommand, &secondaryStopCommand);
+ 202:	82 e0       	ldi	r24, 0x02	; 2
+ 204:	90 e0       	ldi	r25, 0x00	; 0
+ 206:	2e d0       	rcall	.+92     	; 0x264 <eeprom_read_byte>
+ 208:	c8 2f       	mov	r28, r24
+ 20a:	d0 e0       	ldi	r29, 0x00	; 0
+ 20c:	dc 2f       	mov	r29, r28
+ 20e:	cc 27       	eor	r28, r28
+ 210:	d0 93 66 00 	sts	0x0066, r29	; 0x800066 <secondaryStartCommand+0x1>
+ 214:	c0 93 65 00 	sts	0x0065, r28	; 0x800065 <secondaryStartCommand>
+ 218:	83 e0       	ldi	r24, 0x03	; 3
+ 21a:	90 e0       	ldi	r25, 0x00	; 0
+ 21c:	23 d0       	rcall	.+70     	; 0x264 <eeprom_read_byte>
+ 21e:	c8 2b       	or	r28, r24
+ 220:	d0 93 66 00 	sts	0x0066, r29	; 0x800066 <secondaryStartCommand+0x1>
+ 224:	c0 93 65 00 	sts	0x0065, r28	; 0x800065 <secondaryStartCommand>
+	
 	// initialize the IR receiver sub module
-	ir_init();
- 1bc:	3a df       	rcall	.-396    	; 0x32 <ir_init>
-	
-	// load the EEPROM data in RAM mirror
-	unsigned char savedState = eeprom_read_byte(EEPROM_ADDRESS_STATE_OF_MAIN_STATE_MACHINE);
- 1be:	80 e0       	ldi	r24, 0x00	; 0
- 1c0:	90 e0       	ldi	r25, 0x00	; 0
- 1c2:	cb d0       	rcall	.+406    	; 0x35a <eeprom_read_byte>
- 1c4:	18 2f       	mov	r17, r24
-	unsigned char stopCommand = eeprom_read_byte(EEPROM_ADDRESS_RECORDET_STOP_COMMAND);
- 1c6:	81 e0       	ldi	r24, 0x01	; 1
- 1c8:	90 e0       	ldi	r25, 0x00	; 0
- 1ca:	c7 d0       	rcall	.+398    	; 0x35a <eeprom_read_byte>
- 1cc:	d8 2f       	mov	r29, r24
-	
-	// load preserved state of main state machine from EEPROM RAM mirror
-	unsigned char  currentState = savedState;
+	IR_INITIALIZE;
+ 228:	83 b7       	in	r24, 0x33	; 51
+ 22a:	83 60       	ori	r24, 0x03	; 3
+ 22c:	83 bf       	out	0x33, r24	; 51
+ 22e:	12 be       	out	0x32, r1	; 50
+ 230:	89 b7       	in	r24, 0x39	; 57
+ 232:	82 60       	ori	r24, 0x02	; 2
+ 234:	89 bf       	out	0x39, r24	; 57
+ 236:	ac 9a       	sbi	0x15, 4	; 21
+ 238:	8b b7       	in	r24, 0x3b	; 59
+ 23a:	80 62       	ori	r24, 0x20	; 32
+ 23c:	8b bf       	out	0x3b, r24	; 59
 
-	// set PORT B directions for DIO pins
-	DDRB = (1 << DO_LED_PIN) | (1 << DO_KILL_SWITCH_PIN) | (1 << DO_START_PIN);
- 1ce:	87 e0       	ldi	r24, 0x07	; 7
- 1d0:	87 bb       	out	0x17, r24	; 23
-	
-	// Set timer to 'Fast PWM' mode. Used for user LED
-	TCCR0A |= (1 << WGM01) | (1 << WGM00);
- 1d2:	8f b5       	in	r24, 0x2f	; 47
- 1d4:	83 60       	ori	r24, 0x03	; 3
- 1d6:	8f bd       	out	0x2f, r24	; 47
-	
-	// set the PWM duty to ~4%
-	OCR0A = 10;
- 1d8:	8a e0       	ldi	r24, 0x0A	; 10
- 1da:	86 bf       	out	0x36, r24	; 54
-	
-	// shut down the LED PWM
-	TCCR0A &= ~(1 << COM0A1);
- 1dc:	8f b5       	in	r24, 0x2f	; 47
- 1de:	8f 77       	andi	r24, 0x7F	; 127
- 1e0:	8f bd       	out	0x2f, r24	; 47
-	
-	sei();
- 1e2:	78 94       	sei
-	// load the EEPROM data in RAM mirror
-	unsigned char savedState = eeprom_read_byte(EEPROM_ADDRESS_STATE_OF_MAIN_STATE_MACHINE);
-	unsigned char stopCommand = eeprom_read_byte(EEPROM_ADDRESS_RECORDET_STOP_COMMAND);
-	
-	// load preserved state of main state machine from EEPROM RAM mirror
-	unsigned char  currentState = savedState;
- 1e4:	c1 2f       	mov	r28, r17
-				{
-					if (addr == RC5_ADR_EXPERIMENTAL)
-					{
-						if (cmd == (stopCommand + 1))
-						{
-							currentState = STARTED;
- 1e6:	02 e0       	ldi	r16, 0x02	; 2
-	
-	sei();
-
-	while(1)
+	// check start state read from EEPROM
+	// in case the saved state was ACTIVE (we lost power during active fight)
+	// we need to set the ports state and LED states accordingly
+	if (ACTIVE == currentState)
+ 23e:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <__data_start>
+ 242:	92 30       	cpi	r25, 0x02	; 2
+ 244:	41 f4       	brne	.+16     	; 0x256 <main+0x72>
 	{
-		while(!has_next)
- 1e8:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
- 1ec:	81 11       	cpse	r24, r1
- 1ee:	49 c0       	rjmp	.+146    	; 0x282 <main+0xc6>
-		{
-			switch (currentState)
- 1f0:	c2 30       	cpi	r28, 0x02	; 2
- 1f2:	99 f0       	breq	.+38     	; 0x21a <main+0x5e>
- 1f4:	28 f4       	brcc	.+10     	; 0x200 <main+0x44>
- 1f6:	c1 30       	cpi	r28, 0x01	; 1
- 1f8:	09 f0       	breq	.+2      	; 0x1fc <main+0x40>
- 1fa:	ad c0       	rjmp	.+346    	; 0x356 <main+0x19a>
-			{
-				case POWERON:
-				{
-					// set the KILL pin to high
-					PORTB = (1 << DO_KILL_SWITCH_PIN);
- 1fc:	08 bb       	out	0x18, r16	; 24
-				}
-				break;
- 1fe:	99 c0       	rjmp	.+306    	; 0x332 <main+0x176>
-
-	while(1)
+		PORT_DRIVER_SET_STATE_ACTIVE();
+ 246:	86 e0       	ldi	r24, 0x06	; 6
+ 248:	88 bb       	out	0x18, r24	; 24
+		
+		LED_DRIVER_POWER_ON_LED;
+ 24a:	8f b5       	in	r24, 0x2f	; 47
+ 24c:	80 68       	ori	r24, 0x80	; 128
+ 24e:	8f bd       	out	0x2f, r24	; 47
+		
+		currentState = ACTIVE;
+ 250:	90 93 60 00 	sts	0x0060, r25	; 0x800060 <__data_start>
+ 254:	05 c0       	rjmp	.+10     	; 0x260 <main+0x7c>
+	}
+	// in any other case we go to IDLE state
+	else
 	{
-		while(!has_next)
-		{
-			switch (currentState)
- 200:	c3 30       	cpi	r28, 0x03	; 3
- 202:	91 f0       	breq	.+36     	; 0x228 <main+0x6c>
- 204:	c4 30       	cpi	r28, 0x04	; 4
- 206:	09 f0       	breq	.+2      	; 0x20a <main+0x4e>
- 208:	a6 c0       	rjmp	.+332    	; 0x356 <main+0x19a>
-				break;
+		// in case we need to go to IDLE state set the port state accordingly
+		PORT_DRIVER_SET_STATE_IDLE();
+ 256:	82 e0       	ldi	r24, 0x02	; 2
+ 258:	88 bb       	out	0x18, r24	; 24
+		
+		// LED state is OFF from INIT so no need to set it explicitly
+		
+		// we need to set the state of the state explicitly as other code depends on this state
+		currentState = IDLE;
+ 25a:	81 e0       	ldi	r24, 0x01	; 1
+ 25c:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+	}
+	
+    // start interrupts (initialization phase ended)
+	sei();
+ 260:	78 94       	sei
+ 262:	ff cf       	rjmp	.-2      	; 0x262 <main+0x7e>
 
-				case STOPPED:
-				{
-					// shut down the LED PWM
-					TCCR0A &= ~(1 << COM0A1);
- 20a:	8f b5       	in	r24, 0x2f	; 47
- 20c:	8f 77       	andi	r24, 0x7F	; 127
- 20e:	8f bd       	out	0x2f, r24	; 47
-					
-					// write the state to EEPROM
-					EepromWriteByte(EEPROM_ADDRESS_STATE_OF_MAIN_STATE_MACHINE, POWERON);
- 210:	61 e0       	ldi	r22, 0x01	; 1
- 212:	80 e0       	ldi	r24, 0x00	; 0
- 214:	90 e0       	ldi	r25, 0x00	; 0
- 216:	cc df       	rcall	.-104    	; 0x1b0 <EepromWriteByte>
- 218:	1b c0       	rjmp	.+54     	; 0x250 <main+0x94>
-				break;
+00000264 <eeprom_read_byte>:
+ 264:	e1 99       	sbic	0x1c, 1	; 28
+ 266:	fe cf       	rjmp	.-4      	; 0x264 <eeprom_read_byte>
+ 268:	8e bb       	out	0x1e, r24	; 30
+ 26a:	e0 9a       	sbi	0x1c, 0	; 28
+ 26c:	99 27       	eor	r25, r25
+ 26e:	8d b3       	in	r24, 0x1d	; 29
+ 270:	08 95       	ret
 
-				case STARTED:
-				{
-					// start the LED PWM on OUTPUT A
-					TCCR0A |= (1 << COM0A1);
- 21a:	8f b5       	in	r24, 0x2f	; 47
- 21c:	80 68       	ori	r24, 0x80	; 128
- 21e:	8f bd       	out	0x2f, r24	; 47
-					
-					// set start PIN and KILL PIN in case we are waking from power down and we are going to this mode
-					PORTB |= (1 << DO_START_PIN) | (1 << DO_KILL_SWITCH_PIN);
- 220:	88 b3       	in	r24, 0x18	; 24
- 222:	86 60       	ori	r24, 0x06	; 6
- 224:	88 bb       	out	0x18, r24	; 24
-				}
-				break;
- 226:	85 c0       	rjmp	.+266    	; 0x332 <main+0x176>
+00000272 <eeprom_write_byte>:
+ 272:	26 2f       	mov	r18, r22
 
-				case STOPPED_SAFE:
-				{
-					// shut down the LED PWM
-					TCCR0A &= ~(1 << COM0A1);
- 228:	8f b5       	in	r24, 0x2f	; 47
- 22a:	8f 77       	andi	r24, 0x7F	; 127
- 22c:	8f bd       	out	0x2f, r24	; 47
-					
-					// stop the START and KILL signals to LOW
-					PORTB = 0;
- 22e:	18 ba       	out	0x18, r1	; 24
-					
-					EepromWriteByte(EEPROM_ADDRESS_STATE_OF_MAIN_STATE_MACHINE, STOPPED_SAFE);
- 230:	63 e0       	ldi	r22, 0x03	; 3
- 232:	80 e0       	ldi	r24, 0x00	; 0
- 234:	90 e0       	ldi	r25, 0x00	; 0
- 236:	bc df       	rcall	.-136    	; 0x1b0 <EepromWriteByte>
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
+00000274 <eeprom_write_r18>:
+ 274:	e1 99       	sbic	0x1c, 1	; 28
+ 276:	fe cf       	rjmp	.-4      	; 0x274 <eeprom_write_r18>
+ 278:	1c ba       	out	0x1c, r1	; 28
+ 27a:	8e bb       	out	0x1e, r24	; 30
+ 27c:	2d bb       	out	0x1d, r18	; 29
+ 27e:	0f b6       	in	r0, 0x3f	; 63
+ 280:	f8 94       	cli
+ 282:	e2 9a       	sbi	0x1c, 2	; 28
+ 284:	e1 9a       	sbi	0x1c, 1	; 28
+ 286:	0f be       	out	0x3f, r0	; 63
+ 288:	01 96       	adiw	r24, 0x01	; 1
+ 28a:	08 95       	ret
 
-	__builtin_avr_delay_cycles(__ticks_dc);
- 238:	2f ef       	ldi	r18, 0xFF	; 255
- 23a:	8b e4       	ldi	r24, 0x4B	; 75
- 23c:	9d e1       	ldi	r25, 0x1D	; 29
- 23e:	21 50       	subi	r18, 0x01	; 1
- 240:	80 40       	sbci	r24, 0x00	; 0
- 242:	90 40       	sbci	r25, 0x00	; 0
- 244:	e1 f7       	brne	.-8      	; 0x23e <main+0x82>
- 246:	00 c0       	rjmp	.+0      	; 0x248 <main+0x8c>
- 248:	00 00       	nop
-					_delay_ms(1000);
-					currentState = STOPPED;
-					has_next = 0;
- 24a:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
-				}
-				break;
- 24e:	83 c0       	rjmp	.+262    	; 0x356 <main+0x19a>
+0000028c <_exit>:
+ 28c:	f8 94       	cli
 
-					// loop for ever, just for signalization
-					for (;;)
-					{
-						// start the LED PWM on OUTPUT A
-						TCCR0A |= (1 << COM0A1);
- 250:	8f b5       	in	r24, 0x2f	; 47
- 252:	80 68       	ori	r24, 0x80	; 128
- 254:	8f bd       	out	0x2f, r24	; 47
- 256:	2f ef       	ldi	r18, 0xFF	; 255
- 258:	8b e4       	ldi	r24, 0x4B	; 75
- 25a:	9d e1       	ldi	r25, 0x1D	; 29
- 25c:	21 50       	subi	r18, 0x01	; 1
- 25e:	80 40       	sbci	r24, 0x00	; 0
- 260:	90 40       	sbci	r25, 0x00	; 0
- 262:	e1 f7       	brne	.-8      	; 0x25c <main+0xa0>
- 264:	00 c0       	rjmp	.+0      	; 0x266 <main+0xaa>
- 266:	00 00       	nop
-						
-						// wait one second
-						_delay_ms(1000);
-
-						// shut down the LED PWM
-						TCCR0A &= ~(1 << COM0A1);
- 268:	8f b5       	in	r24, 0x2f	; 47
- 26a:	8f 77       	andi	r24, 0x7F	; 127
- 26c:	8f bd       	out	0x2f, r24	; 47
- 26e:	2f ef       	ldi	r18, 0xFF	; 255
- 270:	8b e4       	ldi	r24, 0x4B	; 75
- 272:	9d e1       	ldi	r25, 0x1D	; 29
- 274:	21 50       	subi	r18, 0x01	; 1
- 276:	80 40       	sbci	r24, 0x00	; 0
- 278:	90 40       	sbci	r25, 0x00	; 0
- 27a:	e1 f7       	brne	.-8      	; 0x274 <main+0xb8>
- 27c:	00 c0       	rjmp	.+0      	; 0x27e <main+0xc2>
- 27e:	00 00       	nop
- 280:	e7 cf       	rjmp	.-50     	; 0x250 <main+0x94>
-				EepromWriteByte(EEPROM_ADDRESS_STATE_OF_MAIN_STATE_MACHINE, currentState);
-				_delay_ms(500);
-				savedState = currentState;
-			}
-		}
-		has_next = 0;
- 282:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
-
-		if (addr == RC5_ADR_PROGRAMMING)
- 286:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <addr>
- 28a:	8b 30       	cpi	r24, 0x0B	; 11
- 28c:	91 f5       	brne	.+100    	; 0x2f2 <main+0x136>
-		{
-			stopCommand = cmd & 0b11111110;
- 28e:	d0 91 66 00 	lds	r29, 0x0066	; 0x800066 <cmd>
- 292:	de 7f       	andi	r29, 0xFE	; 254
-			
-			// start the LED PWM on OUTPUT A
-			TCCR0A |= (1 << COM0A1);
- 294:	8f b5       	in	r24, 0x2f	; 47
- 296:	80 68       	ori	r24, 0x80	; 128
- 298:	8f bd       	out	0x2f, r24	; 47
- 29a:	2f ef       	ldi	r18, 0xFF	; 255
- 29c:	85 ea       	ldi	r24, 0xA5	; 165
- 29e:	9e e0       	ldi	r25, 0x0E	; 14
- 2a0:	21 50       	subi	r18, 0x01	; 1
- 2a2:	80 40       	sbci	r24, 0x00	; 0
- 2a4:	90 40       	sbci	r25, 0x00	; 0
- 2a6:	e1 f7       	brne	.-8      	; 0x2a0 <main+0xe4>
- 2a8:	00 c0       	rjmp	.+0      	; 0x2aa <main+0xee>
- 2aa:	00 00       	nop
-
-			_delay_ms(500);
-			EepromWriteByte(EEPROM_ADDRESS_RECORDET_STOP_COMMAND, stopCommand);
- 2ac:	6d 2f       	mov	r22, r29
- 2ae:	81 e0       	ldi	r24, 0x01	; 1
- 2b0:	90 e0       	ldi	r25, 0x00	; 0
- 2b2:	7e df       	rcall	.-260    	; 0x1b0 <EepromWriteByte>
-
-			// shut down the LED PWM
-			TCCR0A &= ~(1 << COM0A1);
- 2b4:	8f b5       	in	r24, 0x2f	; 47
- 2b6:	8f 77       	andi	r24, 0x7F	; 127
- 2b8:	8f bd       	out	0x2f, r24	; 47
- 2ba:	2f ef       	ldi	r18, 0xFF	; 255
- 2bc:	85 ea       	ldi	r24, 0xA5	; 165
- 2be:	9e e0       	ldi	r25, 0x0E	; 14
- 2c0:	21 50       	subi	r18, 0x01	; 1
- 2c2:	80 40       	sbci	r24, 0x00	; 0
- 2c4:	90 40       	sbci	r25, 0x00	; 0
- 2c6:	e1 f7       	brne	.-8      	; 0x2c0 <main+0x104>
- 2c8:	00 c0       	rjmp	.+0      	; 0x2ca <main+0x10e>
- 2ca:	00 00       	nop
-
-			_delay_ms(500);
-			
-			// start the LED PWM on OUTPUT A
-			TCCR0A |= (1 << COM0A1);
- 2cc:	8f b5       	in	r24, 0x2f	; 47
- 2ce:	80 68       	ori	r24, 0x80	; 128
- 2d0:	8f bd       	out	0x2f, r24	; 47
- 2d2:	2f ef       	ldi	r18, 0xFF	; 255
- 2d4:	85 ea       	ldi	r24, 0xA5	; 165
- 2d6:	9e e0       	ldi	r25, 0x0E	; 14
- 2d8:	21 50       	subi	r18, 0x01	; 1
- 2da:	80 40       	sbci	r24, 0x00	; 0
- 2dc:	90 40       	sbci	r25, 0x00	; 0
- 2de:	e1 f7       	brne	.-8      	; 0x2d8 <main+0x11c>
- 2e0:	00 c0       	rjmp	.+0      	; 0x2e2 <main+0x126>
- 2e2:	00 00       	nop
-
-			_delay_ms(500);
-
-			// shut down the LED PWM
-			TCCR0A &= ~(1 << COM0A1);
- 2e4:	8f b5       	in	r24, 0x2f	; 47
- 2e6:	8f 77       	andi	r24, 0x7F	; 127
- 2e8:	8f bd       	out	0x2f, r24	; 47
-
-			has_next = 0;
- 2ea:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
-			currentState = POWERON;
- 2ee:	c1 e0       	ldi	r28, 0x01	; 1
- 2f0:	7b cf       	rjmp	.-266    	; 0x1e8 <main+0x2c>
-		}
-		else
-		{
-			switch (currentState)
- 2f2:	c1 30       	cpi	r28, 0x01	; 1
- 2f4:	19 f0       	breq	.+6      	; 0x2fc <main+0x140>
- 2f6:	c2 30       	cpi	r28, 0x02	; 2
- 2f8:	89 f0       	breq	.+34     	; 0x31c <main+0x160>
- 2fa:	76 cf       	rjmp	.-276    	; 0x1e8 <main+0x2c>
-			{
-				case POWERON:
-				{
-					if (addr == RC5_ADR_EXPERIMENTAL)
- 2fc:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <addr>
- 300:	87 30       	cpi	r24, 0x07	; 7
- 302:	09 f0       	breq	.+2      	; 0x306 <main+0x14a>
- 304:	71 cf       	rjmp	.-286    	; 0x1e8 <main+0x2c>
-					{
-						if (cmd == (stopCommand + 1))
- 306:	20 91 66 00 	lds	r18, 0x0066	; 0x800066 <cmd>
- 30a:	30 e0       	ldi	r19, 0x00	; 0
- 30c:	8d 2f       	mov	r24, r29
- 30e:	90 e0       	ldi	r25, 0x00	; 0
- 310:	01 96       	adiw	r24, 0x01	; 1
- 312:	28 17       	cp	r18, r24
- 314:	39 07       	cpc	r19, r25
- 316:	39 f4       	brne	.+14     	; 0x326 <main+0x16a>
-						{
-							currentState = STARTED;
- 318:	c2 e0       	ldi	r28, 0x02	; 2
- 31a:	66 cf       	rjmp	.-308    	; 0x1e8 <main+0x2c>
-				}
-				break;
-
-				case STARTED:
-				{
-					if (addr == RC5_ADR_EXPERIMENTAL)
- 31c:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <addr>
- 320:	87 30       	cpi	r24, 0x07	; 7
- 322:	09 f0       	breq	.+2      	; 0x326 <main+0x16a>
- 324:	61 cf       	rjmp	.-318    	; 0x1e8 <main+0x2c>
-					{
-						if (cmd == stopCommand)
- 326:	80 91 66 00 	lds	r24, 0x0066	; 0x800066 <cmd>
- 32a:	8d 13       	cpse	r24, r29
- 32c:	5d cf       	rjmp	.-326    	; 0x1e8 <main+0x2c>
-						{
-							currentState = STOPPED_SAFE;
- 32e:	c3 e0       	ldi	r28, 0x03	; 3
- 330:	5b cf       	rjmp	.-330    	; 0x1e8 <main+0x2c>
-					currentState = STOPPED;
-				}
-				break;
-			}
-
-			if (savedState != currentState && currentState != STOPPED)
- 332:	1c 17       	cp	r17, r28
- 334:	09 f4       	brne	.+2      	; 0x338 <main+0x17c>
- 336:	58 cf       	rjmp	.-336    	; 0x1e8 <main+0x2c>
-			{
-				EepromWriteByte(EEPROM_ADDRESS_STATE_OF_MAIN_STATE_MACHINE, currentState);
- 338:	6c 2f       	mov	r22, r28
- 33a:	80 e0       	ldi	r24, 0x00	; 0
- 33c:	90 e0       	ldi	r25, 0x00	; 0
- 33e:	38 df       	rcall	.-400    	; 0x1b0 <EepromWriteByte>
- 340:	2f ef       	ldi	r18, 0xFF	; 255
- 342:	85 ea       	ldi	r24, 0xA5	; 165
- 344:	9e e0       	ldi	r25, 0x0E	; 14
- 346:	21 50       	subi	r18, 0x01	; 1
- 348:	80 40       	sbci	r24, 0x00	; 0
- 34a:	90 40       	sbci	r25, 0x00	; 0
- 34c:	e1 f7       	brne	.-8      	; 0x346 <main+0x18a>
- 34e:	00 c0       	rjmp	.+0      	; 0x350 <main+0x194>
- 350:	00 00       	nop
- 352:	1c 2f       	mov	r17, r28
- 354:	49 cf       	rjmp	.-366    	; 0x1e8 <main+0x2c>
-					currentState = STOPPED;
-				}
-				break;
-			}
-
-			if (savedState != currentState && currentState != STOPPED)
- 356:	c4 e0       	ldi	r28, 0x04	; 4
- 358:	47 cf       	rjmp	.-370    	; 0x1e8 <main+0x2c>
-
-0000035a <eeprom_read_byte>:
- 35a:	e1 99       	sbic	0x1c, 1	; 28
- 35c:	fe cf       	rjmp	.-4      	; 0x35a <eeprom_read_byte>
- 35e:	8e bb       	out	0x1e, r24	; 30
- 360:	e0 9a       	sbi	0x1c, 0	; 28
- 362:	99 27       	eor	r25, r25
- 364:	8d b3       	in	r24, 0x1d	; 29
- 366:	08 95       	ret
-
-00000368 <eeprom_write_byte>:
- 368:	26 2f       	mov	r18, r22
-
-0000036a <eeprom_write_r18>:
- 36a:	e1 99       	sbic	0x1c, 1	; 28
- 36c:	fe cf       	rjmp	.-4      	; 0x36a <eeprom_write_r18>
- 36e:	1c ba       	out	0x1c, r1	; 28
- 370:	8e bb       	out	0x1e, r24	; 30
- 372:	2d bb       	out	0x1d, r18	; 29
- 374:	0f b6       	in	r0, 0x3f	; 63
- 376:	f8 94       	cli
- 378:	e2 9a       	sbi	0x1c, 2	; 28
- 37a:	e1 9a       	sbi	0x1c, 1	; 28
- 37c:	0f be       	out	0x3f, r0	; 63
- 37e:	01 96       	adiw	r24, 0x01	; 1
- 380:	08 95       	ret
-
-00000382 <_exit>:
- 382:	f8 94       	cli
-
-00000384 <__stop_program>:
- 384:	ff cf       	rjmp	.-2      	; 0x384 <__stop_program>
+0000028e <__stop_program>:
+ 28e:	ff cf       	rjmp	.-2      	; 0x28e <__stop_program>

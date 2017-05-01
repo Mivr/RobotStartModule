@@ -9,51 +9,33 @@
 #ifndef IR_H_
 #define IR_H_
 
-/*
- * HW-dependent stuff. Change these macros if your hardware differs.
- */
+#include "avr/io.h"
 
-/*
- * Start module (Attiny13A)
- */
-#define IR_INT_EN() GIMSK |= (1 << PCIE)
-#define IR_ANY_EDGE_INT()	PCMSK |= (1 << PCINT4);
+#define IR_INT_EN					GIMSK |= (1 << PCIE)
+#define IR_ANY_EDGE_INT				PCMSK |= (1 << PCINT4);
 
-#define IR_CNT_PRESCALE_SET()	TCCR0B |= (1 << CS00) | (1 << CS01)	// Prescaler 64
-#define IR_CNT TCNT0
-#define IR_CNT_OVF_EN()	TIMSK0 |= (1 << TOIE0)
+#define IR_CNT_PRESCALE_SET			TCCR0B |= (1 << CS00) | (1 << CS01)	// Prescaler 64
+#define IR_CNT						TCNT0
+#define IR_CNT_OVF_EN				TIMSK0 |= (1 << TOIE0)
 
-#define IR_PIN_ISR PCINT0_vect
-#define IR_CNT_ISR TIM0_OVF_vect
+#define IR_PIN_ISR					PCINT0_vect
+#define IR_CNT_ISR					TIM0_OVF_vect
 
-#define IR_GET_EDGE()	(PINB & (1 << 4))
-#define IR_EDGE_LOW()	!IR_GET_EDGE()
-#define IR_EDGE_HIGH()	IR_GET_EDGE()
-// ------------- END HW-stuff -------------------- //
+#define IR_GET_EDGE					PINB & (1 << 4)
+#define IR_EDGE_LOW					!(IR_GET_EDGE)
+#define IR_EDGE_HIGH				IR_GET_EDGE
 
-/*
- * IR Struct
- */
-typedef struct {
-	unsigned char address_low;
-	unsigned char command;
-} IRDATA;
+#define IR_INITIALIZE \
+IR_CNT_PRESCALE_SET;\
+IR_CNT = 0;\
+IR_CNT_OVF_EN;\
+IR_ANY_EDGE_INT;\
+IR_INT_EN
 
-/*
- * Functions
- */
-void ir_init(void);
+// Shared variables
+extern void handleEvent_dataReceivedOnIR(uint16_t dataReceived);
 
-/*
- * Shared variables
- */
-extern volatile unsigned char has_next;
-extern volatile unsigned char addr;
-extern volatile unsigned char cmd;
-
-/*
- * RC5 protocol standard addresses and commands
- */
+// RC5 protocol standard addresses and commands
 #define RC5_ADR_TV1				0x00
 #define RC5_ADR_TV2				0x01
 #define RC5_ADR_TELETEXT		0x02

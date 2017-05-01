@@ -8,176 +8,93 @@
 #define F_CPU	9600000UL
 
 #include "ir.h"
+#include "stdint.h"
+#include "avr/io.h"
+#include "avr/interrupt.h"
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
 
-
-/*
- * Protocol definitions
- */
+// Protocol definitions
 #define ADDR_LEN	5
 #define CMD_LEN		6
 
-/*
- * Timings in us
- */
+// Timings in us
 #define HALF_BIT_LEN	889L
 #define BIT_LEN			1778L
 
-/*
- * Timer constants
- */
+// Timer constants
 #define MAX_ERROR		48	// ((F_CPU * 5) / 1000000)	// Maximum timing error in timer ticks
 #define TIMER_PRESCALE	64
 
 #define HALF_BIT_CNT	133 // ((HALF_BIT_LEN * (F_CPU / 1000000L)) / TIMER_PRESCALE)
 #define BIT_CNT			266 // ((BIT_LEN * (F_CPU / 1000000L)) / TIMER_PRESCALE)
-/*
- * Interrupt stuff
- */
+
+// Interrupt stuff
 #define	IR_STARTBIT1	0
 #define	IR_STARTBIT2	1
 #define	IR_TOGGLEBIT	2
 #define	IR_ADDR			3
 #define	IR_CMD			4
 
-/*
- * Variables
- */
-volatile signed char status = IR_STARTBIT1;
-volatile unsigned char has_next = 0;
-volatile unsigned char timer_overflows;
+// Variables
+volatile uint16_t lastTimeTimerOverfllowed = 0;
+uint8_t pulses[30], indexInPulsesBuffer = 0;
 
-/*
- * Received data
- */
-volatile unsigned char cmd;
-volatile unsigned char addr;
+// Received data
+uint16_t dataBuffer;
 
-/*
- * Interrupt data
- */
-register unsigned char curr_index asm("r2");
+// magic decoding constants
+#define SHORT_NEGATIVE_PULSE	0
+#define SHORT_POSITIVE_PULSE	1
+#define LONG_NEGATIVE_PULSE		2
+#define LONG_POSITIVE_PULSE		3
 
-
-void ir_init(void) {
-	/*
-	 * Variables
-	 */
-
-	curr_index = 0;
-
-	/*
-	 * Init Timer0
-	 */
-	IR_CNT_PRESCALE_SET();
-	IR_CNT = 0;
-	IR_CNT_OVF_EN();
-
-	/*
-	 * Init INT0
-	 */
-	IR_INT_EN();		// Enable int0
-	IR_ANY_EDGE_INT();	// Interrupt on any logical change
+void tryToDecode()
+{
+	uint8_t bitsCounter = 13;
+	
+	dataBuffer = 0;
+	
+	// start of stream detect
+	if (pulses[0] > 9 && pulses[1] == SHORT_POSITIVE_PULSE)
+	{
+		uint8_t iterator = 2;
+		while (iterator < 29)
+		{
+			if (pulses[iterator] < 4 && pulses[iterator + 1] < 4)
+			{
+				dataBuffer |= ((pulses[iterator] % 2 == 0 && pulses[iterator + 1] % 2 == 1) << bitsCounter);
+				bitsCounter--;
+				iterator += 2 - (pulses[iterator + 1] > 1);
+			}
+			else
+			{
+				iterator++;
+			}
+		}
+	}
+	
+	if (indexInPulsesBuffer == 29)
+	{
+		for (uint8_t i = 0; i<29; i++)
+		{
+			pulses[i] = pulses[i+1];
+		}
+		
+		indexInPulsesBuffer--;
+	}
+	
+	handleEvent_dataReceivedOnIR(dataBuffer);
 }
 
 ISR (IR_PIN_ISR)
 {
-	static signed int cnt = 0;
-
-	cnt += (signed int)IR_CNT + (signed int)(((unsigned int)timer_overflows) << 8);	// Save count
-	IR_CNT = 0;
-	timer_overflows = 0;
-
-	switch (status)
-	{
-		case IR_STARTBIT1:
-		{
-			if (IR_EDGE_LOW())
-			{
-				status = IR_STARTBIT2;
-				cnt = 0;
-			}
-		}
-		break;
-		
-		default:
-		{
-			if ((cnt - MAX_ERROR) < BIT_CNT && (cnt + MAX_ERROR) > BIT_CNT)
-			{
-				switch(status)
-				{
-					case IR_STARTBIT2:
-					{
-						status = IR_TOGGLEBIT;
-						cnt = 0;
-					}
-					break;
-					case IR_TOGGLEBIT:
-					{
-						curr_index = ADDR_LEN;
-						addr = 0;
-						cmd = 0;
-						cnt = 0;
-						status = IR_ADDR;
-					}
-					break;
-					case IR_ADDR:
-					{
-						curr_index--;
-						if (IR_EDGE_LOW())
-						{
-							addr |= _BV(curr_index);
-						}
-
-						if (!curr_index)
-						{
-							curr_index = CMD_LEN;
-							status = IR_CMD;
-						}
-						cnt = 0;
-					}
-					break;
-					case IR_CMD:
-					{
-						curr_index--;
-						if (IR_EDGE_LOW())
-						{
-							cmd |= _BV(curr_index);
-						}
-
-						if (!curr_index)
-						{
-							has_next = 1;
-							status = IR_STARTBIT1;
-						}
-						cnt = 0;
-					}
-					break;
-				}
-			}
-			else if ((cnt - MAX_ERROR) < HALF_BIT_CNT && (cnt + MAX_ERROR) > HALF_BIT_CNT)
-			{
-				cnt = HALF_BIT_CNT;	// Synchronize..
-			}
-			else
-			{
-				status = IR_STARTBIT1;
-			}
-		}
-		break;
-	}
+	uint16_t buffer = TCNT0 - lastTimeTimerOverfllowed - 65535 * ( TCNT0 < lastTimeTimerOverfllowed);
+	pulses[indexInPulsesBuffer] = ( buffer > 1333 ) * 2 + !IR_GET_EDGE + 10 * (buffer < 444 || buffer > 2222);
+	indexInPulsesBuffer++;
+	lastTimeTimerOverfllowed = TCNT0;
+	tryToDecode();
 }
 
-ISR (IR_CNT_ISR)
-{
-	timer_overflows++;
-	if (timer_overflows > 50)
-	{
-		status = IR_STARTBIT1;
-	}
-}
 
 
 
