@@ -1,8 +1,19 @@
-# RobotStartModule
+# Starter module
 
-Our goal is to make the start protocol originally used by RobotChallenge in Vienna, a worldwide available and affordable start stop method for robotic races.
+Goal of this project is to make a single module (aka Starter) that you can use on any race in the world for starting your robot. At the same time the module aims to be reliable as it is a safety critical part in some cases.
 
-## The software project:
+# Arduino remote
+As of 1/5/2017 A simple to use library is available so anyone with an Arduino or compatible board can make a remote in a few minutes. Just copy the "StarterRemote" folder to your Arduino library folder and restart the Arduino IDE.
+
+# The software project:
+## Summary:
+The software was started on the base of this module: http://startmodule.com/ .
+Most of the SW had to be rewritten as it was far from clear to read code, nor it compiled to a good size (initial size was >1KB, and Attiny13A has just 1KB). Currently the approach is to make an event based application (combining the two protocols for start modules I am aware of for now), and a driver layer that sends the events when needed. Future updates will contain WD for safety and some UI functions that I expect to make the module easier to use.
+## Updates:
+### 1/5/2017 - Refactoring in progress
+- New RC-5 decoding algorithm as the old one just took too much space (still to be tested).
+- Event based main logic, made so expanding with more start protocols can be done.
+- Update on production was made again as I had forgotten the BOD protection, now the fuses are set right after module is reprogrammed.
 ### 17/1/2017 - Update on production files and some bugs
 #### Progress:
 - we had a bug where KILL set LOW when starting in STARTED mode - FIXED
@@ -13,27 +24,5 @@ Our goal is to make the start protocol originally used by RobotChallenge in Vien
 - the code is still unclear to read and messy more refactoring is needed
 - the RC5 decoding is taking too much program space as it is now, it needs to be made in assembly and integrated
 
-## The hardware project:
+# The hardware project:
 Can be seen here with full designs and production files: http://circuitmaker.com/Projects/Details/Mihail-Vrachanski/Start-Module
-
-## The business project:
-### Goal
-To make a set of products that allow beginning and professional users to utilize the start protocol.
-
-#### Strategy
-Lean approach - develop the most needed part -> sell to customers -> get feedback -> start over. 
-With this strategy we expect to provide just the product that is needed on the market.
-
-### Short term goals
-Based on feedback a remote is needed as most users do not obtain a phone that can serve as a remote.
-    -> The task is to provide the users with a remote.
-        ->  MVP will contain just an Arduino sketch and an IR diode.
-
-#### MVP - Arduino remote
-As most users obtain an Arduino or compatible board it is needed to make a board independent sample code that is capable of sending basic functions as program start and stop with given by the user settings. For better availability the IR diode needed will be added to a start module purchase.
-
-### Marketing
-Current marketing of the product is just a listing in Ebay: http://www.ebay.com/itm/142152118677
-
-#### Future plans
-The goal is to start supplying web shops for robotics with the module, for this it is needed the whole project to gain some popularity and the module to send some counts so the web shops can see the use of selling it.
